@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JTV~OFICIAL</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#090909;color:#fff;font-family:Arial,sans-serif;display:grid;place-items:center;padding:24px}
+main{width:min(560px,100%);text-align:center}.logo{font-size:clamp(34px,8vw,58px);font-weight:900;letter-spacing:2px;color:#ff8a00;text-shadow:0 0 18px #ff8a0055}
+.sub{color:#bbb;margin:8px 0 28px}.links{display:grid;gap:14px}.link{display:block;padding:17px 20px;border:1px solid #ff8a00;border-radius:12px;background:#17120d;color:#fff;text-decoration:none;font-weight:700;font-size:17px}.link:hover{background:#ff8a00;color:#111}.empty{color:#777;font-size:14px}
+footer{margin-top:28px;color:#666;font-size:12px}
+</style></head>
+<body><main><div class="logo">JTV~OFICIAL</div><p class="sub">Tus enlaces oficiales</p><section class="links" id="links"><p class="empty">Cargando enlaces...</p></section><footer>Panel oficial JTV</footer></main>
+<script>
+const fields=[
+ ["whatsapp","Canal de WhatsApp"],["youtube","Canal de YouTube"],
+ ["archivoNuevo","Archivo Nuevo"],["archivosVip","Archivos VIP"],
+ ["freeFire","Free Fire Recomendado"]
+];
+fetch("/.netlify/functions/config").then(r=>r.json()).then(data=>{
+ const root=document.getElementById("links"); root.innerHTML="";
+ let count=0;
+ for(const [key,label] of fields){const url=(data[key]||"").trim();if(!url)continue;
+  try{const parsed=new URL(url);if(!["http:","https:"].includes(parsed.protocol))continue;
+   const a=document.createElement("a");a.className="link";a.href=parsed.href;a.target="_blank";a.rel="noopener noreferrer";a.textContent=label;root.appendChild(a);count++;
+  }catch{}
+ }
+ if(!count)root.innerHTML='<p class="empty">Los enlaces todavía no han sido configurados.</p>';
+}).catch(()=>document.getElementById("links").innerHTML='<p class="empty">No se pudieron cargar los enlaces.</p>');
+</script></body></html>
