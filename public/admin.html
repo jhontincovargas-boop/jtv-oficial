@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administración | JTV~OFICIAL</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#090909;color:#fff;font-family:Arial,sans-serif;padding:24px}
+main{max-width:620px;margin:25px auto}.brand{text-align:center;color:#ff8a00;font-size:32px;font-weight:900;margin-bottom:8px}
+p.note{text-align:center;color:#aaa;margin:0 0 24px}.panel{background:#151515;border:1px solid #333;border-radius:16px;padding:22px}
+h2{font-size:20px;margin:0 0 18px}label{display:block;color:#eee;font-weight:700;margin:16px 0 7px}
+input{width:100%;padding:13px;border-radius:9px;border:1px solid #444;background:#080808;color:#fff;font-size:15px}
+button{width:100%;border:0;border-radius:10px;background:#ff8a00;color:#111;font-weight:800;font-size:16px;padding:14px;margin-top:18px}
+#status{margin-top:14px;text-align:center;color:#ffb45c;min-height:20px}.small{color:#888;font-size:12px;line-height:1.5}
+</style></head><body><main><div class="brand">JTV~OFICIAL</div><p class="note">Panel de administración</p>
+<section class="panel"><h2>Editar enlaces</h2>
+<label for="password">Contraseña de administrador</label><input id="password" type="password" autocomplete="current-password" placeholder="Ingresa tu contraseña">
+<form id="settings">
+<label for="whatsapp">Canal de WhatsApp</label><input id="whatsapp" type="url" placeholder="https://whatsapp.com/channel/...">
+<label for="youtube">Canal de YouTube</label><input id="youtube" type="url" placeholder="https://youtube.com/@...">
+<label for="archivoNuevo">Archivo Nuevo</label><input id="archivoNuevo" type="url" placeholder="https://...">
+<label for="archivosVip">Archivos VIP</label><input id="archivosVip" type="url" placeholder="https://...">
+<label for="freeFire">Free Fire Recomendado</label><input id="freeFire" type="url" placeholder="https://...">
+<button type="submit">Guardar cambios</button></form>
+<div id="status"></div><p class="small">Los cambios se guardan en Netlify y se muestran en la página principal. Usa enlaces completos que comiencen con https://</p>
+</section></main>
+<script>
+const keys=["whatsapp","youtube","archivoNuevo","archivosVip","freeFire"];
+const status=document.getElementById("status");
+fetch("/.netlify/functions/config").then(r=>r.json()).then(data=>keys.forEach(k=>document.getElementById(k).value=data[k]||"")).catch(()=>{});
+document.getElementById("settings").addEventListener("submit",async e=>{
+ e.preventDefault();status.textContent="Guardando...";
+ const data={};for(const k of keys)data[k]=document.getElementById(k).value.trim();
+ try{
+  const res=await fetch("/.netlify/functions/config",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+document.getElementById("password").value},body:JSON.stringify(data)});
+  const result=await res.json();if(!res.ok)throw new Error(result.error||"No se pudo guardar");
+  status.textContent="¡Cambios guardados correctamente!";
+ }catch(err){status.textContent=err.message;}
+});
+</script></body></html>
