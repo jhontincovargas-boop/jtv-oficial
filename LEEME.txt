@@ -1,0 +1,21 @@
+JTV~OFICIAL - NUEVA PÁGINA Y PANEL
+
+Incluye:
+- Página pública: /
+- Administración: /admin.html
+- Campos editables: Canal de WhatsApp, Canal de YouTube, Archivo Nuevo, Archivos VIP y Free Fire Recomendado.
+- Los cambios se guardan en Netlify Blobs para que se vean a todos los visitantes.
+
+PUBLICACIÓN EN NETLIFY
+1. Descomprime este ZIP.
+2. En Netlify crea un sitio nuevo y despliega la carpeta del proyecto (o conecta un repositorio).
+3. En el sitio, abre Site configuration > Environment variables.
+4. Crea la variable ADMIN_PASSWORD con una contraseña larga y única.
+5. Vuelve a desplegar el sitio para que la función lea la variable.
+6. Abre TU-SITIO.netlify.app/admin.html e introduce esa contraseña.
+7. Edita los enlaces y pulsa Guardar cambios.
+
+IMPORTANTE
+- No compartas la contraseña de administrador.
+- Esta plantilla requiere que Netlify ejecute las funciones y tenga Netlify Blobs disponible.
+- El panel de administración es /admin.html.
